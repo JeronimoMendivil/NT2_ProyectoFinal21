@@ -3,7 +3,7 @@ import { View, StyleSheet, Text } from "react-native";
 import { StatusBar } from 'expo-status-bar';
 import Cronometro from './components/Cronometro';
 import Separador  from './components/Separador';
-import AppButton  from './components/Button';
+import AppButton  from './components/AppButton';
 
 
 const App = () => {

@@ -6,14 +6,14 @@ TouchableOpacity.defaultProps = { activeOpacity: 0.5};
 
 const AppButton = ({ onPress, title }) => {
     return (
-        <TouchableOpacity onPress={onPress} style={styles.appButtonContainer}>
-            <Text style={styles.appButtonText}>{title}</Text>
+        <TouchableOpacity onPress={onPress} style={styles.Container}>
+            <Text style={styles.Text}>{title}</Text>
         </TouchableOpacity>
     )
 };
 
 const styles = StyleSheet.create({
-    appButtonContainer: {
+    Container: {
         elevation: 8,
         backgroundColor: "#007688",
         borderRadius: 10,
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 12
       },
     
-      appButtonText: {
+      Text: {
         fontSize: 22,
         color: "#fff",
         fontWeight: "bold",
