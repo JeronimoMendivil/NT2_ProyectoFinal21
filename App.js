@@ -1,58 +1,31 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
-import { StatusBar } from 'expo-status-bar';
-import Cronometro from './components/Cronometro';
-import Separador  from './components/Separador';
-import AppButton  from './components/AppButton';
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import { NavigationContainer } from "@react-navigation/native";
+
+import Home from "./pages/home"
+import About from "./pages/about"
+import Ranking from "./pages/ranking"
+import Niveles from "./pages/niveles"
+import Juego from "./pages/juego"
 
 
-const App = () => {
+const Drawer = createDrawerNavigator();
+
+export default function App() {
   return (
-    <View style={styles.container}>
+    <NavigationContainer>
+      <Drawer.Navigator initialRouteName={'Home'}>
+        <Drawer.Screen name={'Home'} component={Home} />
+        <Drawer.Screen name={'Niveles'} component={Niveles} />
+        <Drawer.Screen name={'Juego'} component={Juego} />
+        <Drawer.Screen name={'Ranking'} component={Ranking} />
+        <Drawer.Screen name={'About'} component={About} />
 
 
-      <Text style={styles.textoTitulo}>elige el nivel</Text>
-      <Separador/>
-      <Separador/>
 
-      
-      <AppButton title="fácil" />
-      <Separador/>
-
-      <AppButton title="normal" />
-      <Separador/>
-
-      <AppButton title="difícil" />
-      <Separador/>
-
-      <AppButton title="ranking" />
-      <Separador/>
-
-      <Cronometro/>
-      
-      <StatusBar style="auto" />
-    </View>
+      </Drawer.Navigator>
+    </NavigationContainer>
   );
-};
+}
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    padding: 16
-  },
-
-
-  textoTitulo: {
-    fontSize: 34,
-    color: "#007688",
-    fontWeight: "bold",
-    alignSelf: "center",
-    textTransform: "uppercase"
-  },
-  
-
-
-});
-
-export default App;
+//<Stack.Screen name={'Niveles'} component={Niveles} />

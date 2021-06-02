@@ -3,9 +3,14 @@ import {Text, StyleSheet, View } from "react-native";
 
 
 const Cronometro = (props) => {
+
+    const mins = parseInt(props.time / 60)
+    const secs = props.time % 60
+    const paddZero = value => value < 10 ? '0' : ''
+    
     return (
-        <View sytle= {styles.vista}>
-            <Text style= {styles.text}>00:00</Text>
+        <View style= {styles.vista}>
+            <Text style= {styles.text}>{paddZero(mins)}{mins}:{paddZero(secs)}{secs}</Text>           
         </View>
     )
 };
@@ -13,13 +18,15 @@ const Cronometro = (props) => {
 const styles = StyleSheet.create({
     text: {
         fontSize: 30,
-        alignSelf: "flex-end",
+        padding: 10,
+        alignSelf: "center",
     },
 
     vista:{
-        padding: 50,
+        alignSelf: "flex-end",
         justifyContent: 'center',
     },
+
     
 });
 
