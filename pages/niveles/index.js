@@ -8,14 +8,13 @@ export default function Niveles({navigation}) {
     <View style={styles.container}>
         <Text style={styles.textoTitulo}>elige el nivel</Text>  
         <AppButton title="fácil" 
-                  onPress={()=>{navigation.navigate('Juego')}}
+                  onPress={()=>{navigation.navigate('Juego')}} //2 Minutos entre 1 y 100
         />
         <AppButton title="normal" 
-                  onPress={()=>{navigation.navigate('Juego')}}
-                  
+                  onPress={()=>{navigation.navigate('Juego')}} // 1 Minuto entre 1 y 250
         />
         <AppButton title="difícil" 
-                  onPress={()=>{navigation.navigate('Juego')}}
+                  onPress={()=>{navigation.navigate('Juego')}} // 1/2 Minuto entre 1 y 500
         />
         <AppButton title="ranking" 
                   onPress={()=>{navigation.navigate('Ranking')}}

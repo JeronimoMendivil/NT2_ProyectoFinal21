@@ -1,13 +1,17 @@
 import React from "react";
 import {Text, StyleSheet, TouchableOpacity } from "react-native";
 
-TouchableOpacity.defaultProps = { activeOpacity: 0.5};
+//TouchableOpacity.defaultProps = { activeOpacity: 0.5};
 
 
 const AppButton = ({ onPress, title }) => {
     return (
-        <TouchableOpacity onPress={onPress} style={styles.Container}>
-            <Text style={styles.Text}>{title}</Text>
+        <TouchableOpacity 
+            activeOpacity={0.5} 
+            onPress={onPress} 
+            style={styles.Container}
+        >
+                <Text style={styles.Text}>{title}</Text>
         </TouchableOpacity>
     )
 };
