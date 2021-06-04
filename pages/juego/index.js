@@ -1,13 +1,16 @@
 import React, {useState} from "react";
-import { View, StyleSheet, Button } from "react-native";
+import { View, StyleSheet, Button, Text } from "react-native";
 import { StatusBar } from 'expo-status-bar';
 import Cronometro from '../../components/Cronometro';
 import Resultado from '../../components/Resultado';
+import InputNumero from "../../components/InputNumero";
+import AppButton from "../../components/AppButton";
 
 
 const numTecho = 100;
 const numUser = 50;
 const numSecreto= Math.floor(Math.random() * numTecho) + 1;
+const cantIntentos = 0; //o en 1 probar
 
 
 
@@ -44,6 +47,9 @@ export default function Juego({ navigation }) {
                 <Button title={'Reiniciar'} onPress={restart} />
             </View>
             <Resultado numUser={numUser} numSecreto={numSecreto} numTecho={numTecho}/>
+            <InputNumero />
+            <AppButton title="adivinar"/>
+            <Text style={styles.text}>intentos:{cantIntentos}</Text>
             <StatusBar style='auto'/>
         </View>
 
@@ -72,6 +78,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignSelf: "flex-end",
   },
+
+  text: {
+    color: "#007688",
+    fontSize: 24,
+    alignSelf: "center",
+    paddingBottom: 20,
+},
 
 
 });
