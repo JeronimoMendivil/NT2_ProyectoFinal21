@@ -20,8 +20,11 @@ const textInput = () => {
 const styles = StyleSheet.create({
   input: {
     height: 40,
-    margin: 12,
-    borderWidth: 1,
+    width: "100%",
+    padding: 10,
+    border: "0.5px gray solid",
+    boxShadow: "0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)",
+    transition: "box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
   },
 });
 
