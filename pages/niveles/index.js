@@ -2,11 +2,12 @@ import React from "react";
 import { View, StyleSheet, Text, Button } from "react-native";
 import { StatusBar } from 'expo-status-bar';
 import AppButton from '../../components/AppButton';
+import TextTitulo from "../../components/TextTitulo";
 
 export default function Niveles({navigation}) {
   return (
     <View style={styles.container}>
-        <Text style={styles.textoTitulo}>elige el nivel</Text>  
+        <TextTitulo text={"elige el nivel"} />
         <AppButton title="fácil" 
                   onPress={()=>{navigation.navigate('Juego')}} //2 Minutos entre 1 y 100
         />
@@ -30,15 +31,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     padding: 16
-  },
-
-  textoTitulo: {
-    fontSize: 34,
-    color: "#007688",
-    fontWeight: "bold",
-    textTransform: "uppercase",
-    alignSelf: "center",
-    marginBottom: 50,
   },
 
   buttonContainer: {

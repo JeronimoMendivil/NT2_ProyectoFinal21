@@ -1,13 +1,16 @@
 import React from "react";
 import { View, StyleSheet, Text, TextInput, Button } from "react-native";
 import { StatusBar } from 'expo-status-bar';
+import TextTitulo from "../../components/TextTitulo";
+
+
 
 
 export default function Home({ navigation }) {
   return (
     <View style={styles.container}>
       {/* #TODO: Agregar Nombre */}
-      <Text style={styles.titulo} >HOLA !!!</Text>
+      <TextTitulo text={"hola!!!"} />
       
       {/* #TODO: Agregar Introduccion, tal vez con instrucciones. */}
       {/*
