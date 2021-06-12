@@ -19,6 +19,8 @@ export default function Juego({ navigation, tiempoDeJuego }) {
   const [finished, setFinished] = useState(false);
 
   const [numUser, setNumUser] = useState(null);
+  const [mayor, setMayor] = useState(false);
+
 
   useEffect(() => {
     if (time == 0) {
@@ -37,7 +39,9 @@ export default function Juego({ navigation, tiempoDeJuego }) {
     if (numUser == numSecret) {
       setFinished(true);
       //#TODO: Pausar cronometro
-    }
+    } else (numUser > numSecret)
+
+    setMayor(true);
     //#TODO: Si no es igual, mostrar mensaje de si es mayor o menor al numSecret.
   }
 
@@ -76,6 +80,7 @@ export default function Juego({ navigation, tiempoDeJuego }) {
           <>
             <Cronometro time={time} style={styles.center} />
             <Text style={styles.text}>Acabo de pensar el número esta entre 1 y {numTecho}.</Text>
+            {(mayor) ? <Text style={styles.text}>Te equivocaste zapallo! pénsa un número mas alto</Text> : <Text style={styles.text}>Te equivocaste! pensa un número mas bajo</Text> }
             <TextInput
               style={styles.input}
               onChangeText={setNumUser}
