@@ -18,7 +18,8 @@ export default function Juego({ navigation, tiempoDeJuego }) {
   const [intentos, setIntentos] = useState(0);
   const [finished, setFinished] = useState(false);
 
-  const [numUser, setNumUser] = useState(null);
+  const [numUser, setNumUser] = useState();
+  const [numSecret, setNumSecret] = useState();
   const [mayor, setMayor] = useState(false);
 
 
@@ -38,14 +39,20 @@ export default function Juego({ navigation, tiempoDeJuego }) {
     sumarIntento();
     if (numUser == numSecret) {
       setFinished(true);
-      //#TODO: Pausar cronometro
+      //#TODO: Pausar temporizador
     } else (numUser > numSecret)
 
     setMayor(true);
-    //#TODO: Si no es igual, mostrar mensaje de si es mayor o menor al numSecret.
   }
 
-  const onToggleButton = () => {
+  const startGame = () => {
+    //#TODO: Si le da al Boton Volver a Comenzar debe reiniciar el temporizador
+    setNumSecret(Math.floor(Math.random() * numTecho) + 1);
+
+    //#TODO: Limpiar input
+    setStart(true);
+    setFinished(false);
+    
     setIntentos(prev => 0)
     if (!activeTimer) {
       idInterval = setInterval(() => {
@@ -63,6 +70,7 @@ export default function Juego({ navigation, tiempoDeJuego }) {
       (finished) ? 
         <Text style={styles.text}><b>Felicidades adiviniste el numero en {intentos} intentos.</b></Text> : ""
       } */}
+      {/* {(finished) ? <AppButton title="Ranking" /> : <></>} */}
 
       {
         (!activeTimer) ?
@@ -70,16 +78,17 @@ export default function Juego({ navigation, tiempoDeJuego }) {
             <Text style={styles.text}>
               {
                 (!finished) ?
-                  <>Al comenzar deberas adivinar un numero entre 1 y {numTecho}. ¿Serás capaz de adivinarlo?</>
+                  <>Adivina un numero entre 1 {numSecret} y {numTecho}. ¿Serás capaz de adivinarlo?</>
                   :
                   <>Perdiste Dar comenzar para volver a intentarlo</>
               }
             </Text>
-            <AppButton title="Comenzar" onPress={onToggleButton} />
+            {/* #TODO: Texto Volver a Jugar */}
+            <AppButton title="Comenzar" onPress={startGame} />
           </>
           :
           <>
-            <Cronometro time={time} style={styles.center} />
+            <Cronometro time={time} style={styles.center} />  
             <Text style={styles.text}>Acabo de pensar el número esta entre 1 y {numTecho}.</Text>
             {(mayor) ? <Text style={styles.text}>Te equivocaste zapallo! pénsa un número mas alto</Text> : <Text style={styles.text}>Te equivocaste! pensa un número mas bajo</Text> }
             <TextInput
