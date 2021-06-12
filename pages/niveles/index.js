@@ -4,6 +4,10 @@ import { StatusBar } from 'expo-status-bar';
 import AppButton from '../../components/AppButton';
 import TextTitulo from "../../components/TextTitulo";
 
+const nivelFacil = 2;
+const nivelNormal = 1;
+const nivelDificil = 0.5;
+
 export default function Niveles({navigation}) {
   return (
     <View style={styles.container}>

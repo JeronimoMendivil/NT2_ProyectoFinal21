@@ -3,70 +3,96 @@ import { View, StyleSheet, Button, Text, TextInput } from "react-native";
 import { StatusBar } from 'expo-status-bar';
 import Cronometro from '../../components/Cronometro';
 import AppButton from "../../components/AppButton";
+import vibrate from "../../utils/vibrate";
 
+const numTecho = 100;
+const numSecret = 50;
+let idInterval;
+let varSegundos = 0.1;
+const minTosec = min => min * 60;
 
-export default function Juego({ navigation }) {
-    //#TODO: Cambiar para usar temporizador y no cronometro
-    const [time, setTime] = useState(0); //#TODO: Depende del nivel seleccionado, se lo pasa por parametro?
-    const [activeTimer, setActiveTimer] = useState(false);
-    const [start, setStart] = useState(false);
-    const [finished, setFinished] = useState(false);
-    const [numUser, setNumUser] = useState(null);
-    const [intentos, setIntentos] = useState(0);
-    
-    const numTecho = 100; //#TODO: Depende del nivel seleccionado, se lo pasa por parametro?
-    //const numSecreto= Math.floor(Math.random() * numTecho) + 1;
-    const numSecret = 50;
+export default function Juego({ navigation, tiempoDeJuego }) {
 
-    const sumarIntento = () => setIntentos(intentos+1);
+  const [time, setTime] = useState(minTosec(varSegundos));
+  const [activeTimer, setActiveTimer] = useState(false);
+  const [intentos, setIntentos] = useState(0);
+  const [finished, setFinished] = useState(false);
 
-    let interval;
+  const [numUser, setNumUser] = useState(null);
 
-    const startGame = () => {
-      //#TODO: Si le da al Boton Volver a Comenzar debe reiniciar el cronometro
-      //#TODO: Setear numSecret
-      //#TODO: Setear intentos a 0
-
-      setStart(true);
-      if (activeTimer) {
-          clearInterval(interval)
-      } else {
-          interval = setInterval(() => {
-              setTime(prev => prev + 1)
-          }, 1000);
-      }
+  useEffect(() => {
+    if (time == 0) {
+      vibrate();
       setActiveTimer(prev => !prev)
+      clearInterval(idInterval)
+      setTime(minTosec(varSegundos))
+      setFinished(prev => !prev)
     }
-    
-    const procesar = () => {
-      sumarIntento();
-      if(numUser == numSecret){
-        setFinished(true);
-        //#TODO: Pausar cronometro
+  }, [time])
+
+  const sumarIntento = () => setIntentos(intentos + 1);
+
+  const procesar = () => {
+    sumarIntento();
+    if (numUser == numSecret) {
+      setFinished(true);
+      //#TODO: Pausar cronometro
+    }
+    //#TODO: Si no es igual, mostrar mensaje de si es mayor o menor al numSecret.
+  }
+
+  const onToggleButton = () => {
+    if (!activeTimer) {
+      idInterval = setInterval(() => {
+        setTime(prev => prev - 1)
+      }, 1000);
+    }
+    setActiveTimer(prev => !prev)
+  }
+
+  return (
+
+    <View style={styles.container}>
+
+      {/* {
+      (finished) ? 
+        <Text style={styles.text}><b>Felicidades adiviniste el numero en {intentos} intentos.</b></Text> : ""
+      } */}
+
+      {
+        (!activeTimer) ?
+          <>
+            <Text style={styles.text}>
+              {
+                (!finished) ?
+                  <>Al comenzar deberas adivinar un numero entre 1 y {numTecho}. ¿Serás capaz de adivinarlo?</>
+                  :
+                  <>Perdiste Dar comenzar para volver a intentarlo</>
+              }
+            </Text>
+            <AppButton title="Comenzar" onPress={onToggleButton} />
+          </>
+          :
+          <>
+            <Cronometro time={time} style={styles.center} />
+            <Text style={styles.text}>Acabo de pensar el número esta entre 1 y {numTecho}.</Text>
+            <TextInput
+              style={styles.input}
+              onChangeText={setNumUser}
+              value={numUser}
+              placeholder="Comienza tu intento"
+              keyboardType="numeric"
+            />
+            <AppButton title="adivinar" onPress={procesar} />
+            <Text style={styles.text}>Intentos: {intentos}</Text>
+          </>
       }
-      //#TODO: Si no es igual, mostrar mensaje de si es mayor o menor al numSecret.
-    }
-    
-    return (
-      <View style={styles.container}>
-          <Cronometro time={time} />
-          { (finished) ? "" : <Text style={styles.text}>Adivina un numero entre 1 y {numTecho}</Text> }
-          {/* #TODO: Mostrar en el mensaje de abajo, el tiempo que tardo. */}
-          { (finished) ? <Text style={styles.text}><b>Felicidades adiviniste el numero en {intentos} intentos.</b></Text> : "" }
-          <TextInput
-            style={styles.input}
-            onChangeText={setNumUser}
-            value={numUser}
-            placeholder="Comienza tu intento"
-            keyboardType="numeric"
-          />
-          {/* #TODO: Si ya gano, que aparezca el boton volver a jugar. */}
-          {(start && !finished) ? <AppButton title="adivinar" onPress={procesar} /> : <AppButton title={finished ? "Volver a Jugar" : "Comenzar"} onPress={startGame} /> }
-          {(finished) ? <AppButton title="Ranking" /> : ""}     
-          <Text style={styles.text}>Intentos: {intentos}</Text>
-          <StatusBar style='auto'/>
-      </View>      
-    );
+
+      {/* {(finished) ? <AppButton title="Ranking" /> : ""} */}
+
+      <StatusBar style='auto' />
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -97,13 +123,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignSelf: "flex-end",
   },
-
+  center: {
+    alignSelf: 'center'
+  },
   text: {
     color: "#007688",
     fontSize: 24,
     alignSelf: "center",
     paddingBottom: 20,
-},
+  },
 
 
 });

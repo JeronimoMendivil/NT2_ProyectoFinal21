@@ -21,14 +21,10 @@ const styles = StyleSheet.create({
         padding: 10,
         alignSelf: "center",
     },
-
     vista:{
-        alignSelf: "flex-end",
+        //alignSelf: "flex-end",
         justifyContent: 'center',
-    },
-
-    
+    }
 });
-
 
 export default Cronometro;
