@@ -1,33 +1,52 @@
-import React from "react";
-import { View, StyleSheet, Text, TextInput, Button } from "react-native";
-import { StatusBar } from 'expo-status-bar';
-import TextTitulo from "../../components/TextTitulo";
+import React from "react"
+import { View, StyleSheet, Image, TextInput, Button, TouchableOpacity } from "react-native"
+import { StatusBar } from 'expo-status-bar'
+import TextTitulo from "../../components/TextTitulo"
+
+import * as Google from 'expo-google-app-auth'
 
 
 
 
-export default function Home({ navigation }) {
+export default function Home({ navigation, applyAuthentication }) {
+
+  async function signInwithGoogleAsync(){
+    try {
+      const config = {
+        iosClienteId: '640461910291-mp0bs171qmk1v3tpjp0vq4qverddvivu.apps.googleusercontent.com'
+        //androidclienteId :''
+      }
+      const result = await Google.logInAsync(config);
+      console.log(result);
+
+      if (result.type == 'success' && result.user != undefined) {
+        applyAuthentication(result.user)
+      }
+  
+    } catch (error) {
+      console.error('Error: ', error);
+    }
+  
+  
+  }
+  
   return (
     <View style={styles.container}>
       {/* #TODO: Agregar Nombre */}
       <TextTitulo text={"hola!!!"} />
       
       {/* #TODO: Agregar Introduccion, tal vez con instrucciones. */}
-      {/*
-      <Button 
-          title={'Go to About'}
-          onPress={()=>{navigation.navigate('About')}}
-      />
-      <Button 
-          title={'Go to Niveles'}
-          onPress={()=>{navigation.navigate('Niveles')}}
-      />
-      */}
       {/* #TODO: Agregar Inicio con Google */}
-      <Button 
-        style={styles.google}
-        title={'Sign Up with Google'}
-      />
+      <TouchableOpacity
+        style={styles.buttonGoogle}
+        activeOpacity={0.5}
+        onPress={() => {signInwithGoogleAsync()}}
+      >
+        <Image 
+          style={styles.buttonImageIcon}
+          source={require('../../assets/btn_google_signin.png')}
+        />
+      </TouchableOpacity>
       <TextInput
         style={styles.input}
         placeholder="Name"
@@ -57,11 +76,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  titulo: {
-    fontSize: 25,
-    fontWeight: 600,
-    marginBottom: 20,
-  },
   input: {
     height: 40,
     width: "80%",
@@ -71,4 +85,17 @@ const styles = StyleSheet.create({
     boxShadow: "0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)",
     transition: "box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
   },
+  buttonGoogle:{
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 0.5,
+    borderColor: '#fff',
+    borderRadius: 5,
+    margin: 50
+  },
+  buttonImageIcon: {
+    padding: 30,
+    margin: 5,
+    //resizeMode: 'strech',
+  }
 });

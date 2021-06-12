@@ -17,9 +17,11 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "com.nt2.final2021",
       "supportsTablet": true
     },
     "android": {
+      "packege": "com.nt2.final2021",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
