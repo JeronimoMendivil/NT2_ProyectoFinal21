@@ -2,7 +2,7 @@ import React from "react";
 import {Text, StyleSheet, View } from "react-native";
 
 
-const Resultado = ({ numTecho, numUser , numSecreto }) => {
+const Resultado = ({ numTecho, numUser, numSecreto }) => {
 
     let resultado;
 
@@ -19,9 +19,8 @@ const Resultado = ({ numTecho, numUser , numSecreto }) => {
 }
     return (
         <View style= {styles.vista}>
-            <Text style= {styles.text}>el numero secreto es {numSecreto}</Text>
-            <Text style= {styles.text}>Adivina un numero entre 1 y {numTecho}</Text>
-            <Text style= {styles.text}>{numUser} es {resultado}</Text>
+            <Text style={styles.text}>el numero secreto es {numSecreto}</Text>
+            <Text style={styles.text}>{numUser} es {resultado}</Text>
         </View>         
     )
 };
