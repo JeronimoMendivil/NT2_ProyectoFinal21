@@ -42,6 +42,7 @@ export default function Juego({ navigation, tiempoDeJuego }) {
   }
 
   const onToggleButton = () => {
+    setIntentos(prev => 0)
     if (!activeTimer) {
       idInterval = setInterval(() => {
         setTime(prev => prev - 1)
