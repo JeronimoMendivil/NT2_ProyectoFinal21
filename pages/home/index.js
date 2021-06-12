@@ -33,7 +33,11 @@ export default function Home({ navigation, applyAuthentication }) {
   return (
     <View style={styles.container}>
       {/* #TODO: Agregar Nombre */}
-      <TextTitulo text={"hola!!!"} />
+      <TextTitulo text={"TUSAM"} />
+
+      <Text style={styles.description}>
+        Ingrese, seleccione una dificultad e intente adivinar el numero en la menor cantidad de intentos antes que se acabe el tiempo.
+      </Text>
       
       {/* #TODO: Agregar Introduccion, tal vez con instrucciones. */}
       {/* #TODO: Agregar Inicio con Google */}
@@ -75,6 +79,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  description: {
+    fontSize: 18,
   },
   input: {
     height: 40,
