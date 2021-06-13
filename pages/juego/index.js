@@ -6,96 +6,86 @@ import AppButton from "../../components/AppButton";
 import vibrate from "../../utils/vibrate";
 
 const numTecho = 100;
-const numSecret = 50;
 let idInterval;
-let varSegundos = 0.1;
+let varMinutos = 5;
 const minTosec = min => min * 60;
 
 export default function Juego({ navigation, tiempoDeJuego }) {
-
-  const [time, setTime] = useState(minTosec(varSegundos));
-  const [activeTimer, setActiveTimer] = useState(false);
+  const [time, setTime] = useState(minTosec(varMinutos));
+  const [jugando, setJugando] = useState(false);
   const [intentos, setIntentos] = useState(0);
-  const [finished, setFinished] = useState(false);
+  const [gano, setGano] = useState(false);
 
-  const [numUser, setNumUser] = useState(null);
-  const [mayor, setMayor] = useState(false);
-
+  const [numUser, setNumUser] = useState();
+  const [numSecret, setNumSecret] = useState();
+  const [mensaje, setMensaje] = useState("Adivina un numero entre 1 " + numSecret + " y " + numTecho);
 
   useEffect(() => {
     if (time == 0) {
-      vibrate();
-      setActiveTimer(prev => !prev)
-      clearInterval(idInterval)
-      setTime(minTosec(varSegundos))
-      setFinished(prev => !prev)
+      termino();
+      setTime(minTosec(varMinutos))
+      setMensaje("Se acabo el tiempo")
     }
   }, [time])
 
-  const sumarIntento = () => setIntentos(intentos + 1);
-
-  const procesar = () => {
-    sumarIntento();
-    if (numUser == numSecret) {
-      setFinished(true);
-      //#TODO: Pausar cronometro
-    } else (numUser > numSecret)
-
-    setMayor(true);
-    //#TODO: Si no es igual, mostrar mensaje de si es mayor o menor al numSecret.
+  const termino = () => {
+    vibrate();
+    setJugando(prev => !prev)
+    clearInterval(idInterval)
   }
 
-  const onToggleButton = () => {
+  const procesar = () => {
+    let aux = intentos + 1;
+    setIntentos(aux);
+    if (numUser == numSecret) {
+      setGano(true);
+      termino();
+      setMensaje("Felicidades adiviniste el numero en " + aux + " intentos");
+    } 
+    else if (numUser > numSecret) {
+      setMensaje("Pénsa un número mas alto");
+    }
+    else{
+      setMensaje("Pénsa un número mas bajo");
+    }
+  }
+
+  const startGame = () => {
+    clearInterval(idInterval);
+    setTime(minTosec(varMinutos))
+    let aux = Math.floor(Math.random() * numTecho) + 1;
+    setNumSecret(aux);
+
+    //#TODO: Limpiar input
+    setGano(false);
+    
     setIntentos(prev => 0)
-    if (!activeTimer) {
+    if (!jugando) {
       idInterval = setInterval(() => {
         setTime(prev => prev - 1)
       }, 1000);
     }
-    setActiveTimer(prev => !prev)
+    setJugando(prev => !prev)
+    setMensaje("Adivina un numero entre 1 " + aux + " y " + numTecho);
   }
 
   return (
-
     <View style={styles.container}>
-
-      {/* {
-      (finished) ? 
-        <Text style={styles.text}><b>Felicidades adiviniste el numero en {intentos} intentos.</b></Text> : ""
-      } */}
-
-      {
-        (!activeTimer) ?
-          <>
-            <Text style={styles.text}>
-              {
-                (!finished) ?
-                  <>Al comenzar deberas adivinar un numero entre 1 y {numTecho}. ¿Serás capaz de adivinarlo?</>
-                  :
-                  <>Perdiste Dar comenzar para volver a intentarlo</>
-              }
-            </Text>
-            <AppButton title="Comenzar" onPress={onToggleButton} />
-          </>
-          :
-          <>
-            <Cronometro time={time} style={styles.center} />
-            <Text style={styles.text}>Acabo de pensar el número esta entre 1 y {numTecho}.</Text>
-            {(mayor) ? <Text style={styles.text}>Te equivocaste zapallo! pénsa un número mas alto</Text> : <Text style={styles.text}>Te equivocaste! pensa un número mas bajo</Text> }
-            <TextInput
-              style={styles.input}
-              onChangeText={setNumUser}
-              value={numUser}
-              placeholder="Comienza tu intento"
-              keyboardType="numeric"
-            />
-            <AppButton title="adivinar" onPress={procesar} />
-            <Text style={styles.text}>Intentos: {intentos}</Text>
-          </>
-      }
-
-      {/* {(finished) ? <AppButton title="Ranking" /> : ""} */}
-
+      <Cronometro time={time} style={styles.center} />  
+      <Text style={styles.text}><b>{mensaje}</b></Text>
+      {/* #TODO: Componente Jugando */}
+      {/* #TODO: Componente NoJugando */}
+      { (jugando) ? 
+        <TextInput
+          style={styles.input}
+          onChangeText={setNumUser}
+          defaultValue={numUser}
+          placeholder="Comienza tu intento"
+          keyboardType="numeric"
+        />
+      : <></>}
+      {(jugando) ? <AppButton title="Adivinar" onPress={procesar} /> : <AppButton title={(gano) ? "Volver a Jugar" : "Comenzar"} onPress={startGame} />}            
+      {(jugando) ? <Text style={styles.text}>Intentos: {intentos}</Text> : (gano) ? <AppButton title="Ranking" /> : <></>}
       <StatusBar style='auto' />
     </View>
   );
@@ -123,7 +113,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginBottom: 50,
   },
-
   buttonContainer: {
     padding: 10,
     flexDirection: 'row',
@@ -138,6 +127,4 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     paddingBottom: 20,
   },
-
-
 });
