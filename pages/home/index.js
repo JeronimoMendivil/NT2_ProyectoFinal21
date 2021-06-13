@@ -1,5 +1,5 @@
 import React from "react"
-import { View, StyleSheet, Image, TextInput, Button, TouchableOpacity } from "react-native"
+import { View, StyleSheet, Image, Text, TextInput, Button, TouchableOpacity } from "react-native"
 import { StatusBar } from 'expo-status-bar'
 import TextTitulo from "../../components/TextTitulo"
 
