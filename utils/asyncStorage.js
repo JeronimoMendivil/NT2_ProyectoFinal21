@@ -20,4 +20,12 @@ AsyncStorage.getData = async (key) => {
   }
 };
 
+AsyncStorage.clearAll = async() => {
+  try {
+    return await Storage.clearAll()
+  } catch (error) {
+    
+  }
+}
+
 export default AsyncStorage;
