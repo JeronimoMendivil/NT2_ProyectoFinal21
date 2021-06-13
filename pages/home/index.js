@@ -6,20 +6,18 @@ import TextTitulo from "../../components/TextTitulo"
 import * as Google from 'expo-google-app-auth'
 
 
-
-
 export default function Home({ navigation, applyAuthentication }) {
 
   async function signInwithGoogleAsync(){
     try {
       const config = {
-        iosClienteId: '640461910291-mp0bs171qmk1v3tpjp0vq4qverddvivu.apps.googleusercontent.com'
+        iosClienteId: "640461910291-mp0bs171qmk1v3tpjp0vq4qverddvivu.apps.googleusercontent.com"
         //androidclienteId :''
       }
       const result = await Google.logInAsync(config);
       console.log(result);
 
-      if (result.type == 'success' && result.user != undefined) {
+      if (result.type === 'success' && result.user !== undefined) {
         applyAuthentication(result.user)
       }
   
@@ -81,9 +79,12 @@ const styles = StyleSheet.create({
     width: "80%",
     margin: 12,
     padding: 10,
+    /* --------------REVISAR------------------------------------------------------------- */
     border: "0.5px gray solid",
     boxShadow: "0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)",
     transition: "box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
+    /* --------------REVISAR------------------------------------------------------------- */
+
   },
   buttonGoogle:{
     flexDirection: 'row',

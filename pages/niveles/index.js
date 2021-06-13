@@ -8,9 +8,12 @@ const nivelFacil = 2;
 const nivelNormal = 1;
 const nivelDificil = 0.5;
 
-export default function Niveles({navigation}) {
+export default function Niveles({navigation, applyLogout}) {
+
+
   return (
     <View style={styles.container}>
+
         <TextTitulo text={"elige el nivel"} />
         <AppButton title="fácil" 
                   onPress={()=>{navigation.navigate('Juego')}} //2 Minutos entre 1 y 100
@@ -24,6 +27,12 @@ export default function Niveles({navigation}) {
         <AppButton title="ranking" 
                   onPress={()=>{navigation.navigate('Ranking')}}
         />
+        {/* PROVISORIO */}
+        <AppButton title="loguot" 
+                  onPress={()=>{applyLogout}}
+        />
+     
+
 
         <StatusBar style='auto'/>
     </View>

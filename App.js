@@ -20,20 +20,27 @@ export default function App() {
 
   const checkUser = async () => {
     const user = await AsyncStorage.getData('@userData')
-    console.log(user)
+    //console.log(user)
     if (user) {
       setAuthenticated(true)
     }
   }
 
-  useEffect( () =>{
+  useEffect(() =>{
     checkUser()
   },[])
+
+
 
   const applyAuthentication = (user) =>{
     console.log('Data a persistir: ', user)
     AsyncStorage.storeData('@userData', user)
+    checkUser()
+  }
 
+  const applyLogout = () => {
+    AsyncStorage.clearAll()
+    setAuthenticated(false)
   }
 
 
@@ -45,14 +52,14 @@ export default function App() {
         <Drawer.Navigator>
           {(authenticated) ?
           <>
-            <Drawer.Screen name={'Niveles'} component={Niveles} />
+            <Drawer.Screen name={'Niveles'} component={Niveles} applyLogout={applyLogout} />
             <Drawer.Screen name={'Juego'} component={Juego} />
             <Drawer.Screen name={'Ranking'} component={Ranking} />
             <Drawer.Screen name={'About'} component={About} />
           </>
           :
           <>
-            <Drawer.Screen name={'Home'} component={Home} />
+            <Drawer.Screen name={'Home'} component={Home} applyAuthentication={applyAuthentication} />
             <Drawer.Screen name={'About'} component={About} />
           </>
           }
