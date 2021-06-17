@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, Button, Text, TextInput } from "react-native";
+import { View, StyleSheet, Text, TextInput } from "react-native";
 import { StatusBar } from 'expo-status-bar';
 import Cronometro from '../../components/Cronometro';
 import AppButton from "../../components/AppButton";
@@ -7,7 +7,7 @@ import vibrate from "../../utils/vibrate";
 
 const numTecho = 100;
 let idInterval;
-let varMinutos = 5;
+let varMinutos = .5;
 const minTosec = min => min * 60;
 
 export default function Juego({ navigation, tiempoDeJuego }) {
@@ -43,11 +43,12 @@ export default function Juego({ navigation, tiempoDeJuego }) {
       setMensaje("Felicidades adiviniste el numero en " + aux + " intentos");
     } 
     else if (numUser > numSecret) {
-      setMensaje("Pénsa un número mas alto");
-    }
-    else{
       setMensaje("Pénsa un número mas bajo");
     }
+    else{
+      setMensaje("Pénsa un número mas alto");
+    }
+    setNumUser();
   }
 
   const startGame = () => {
@@ -55,8 +56,8 @@ export default function Juego({ navigation, tiempoDeJuego }) {
     setTime(minTosec(varMinutos))
     let aux = Math.floor(Math.random() * numTecho) + 1;
     setNumSecret(aux);
-
-    //#TODO: Limpiar input
+ 
+    //#TODO: Limpiar input  --LISTO--
     setGano(false);
     
     setIntentos(prev => 0)
@@ -72,7 +73,7 @@ export default function Juego({ navigation, tiempoDeJuego }) {
   return (
     <View style={styles.container}>
       <Cronometro time={time} style={styles.center} />  
-      <Text style={styles.text}><b>{mensaje}</b></Text>
+      <Text style={styles.text}>{mensaje}</Text>
       {/* #TODO: Componente Jugando */}
       {/* #TODO: Componente NoJugando */}
       { (jugando) ? 
@@ -82,10 +83,11 @@ export default function Juego({ navigation, tiempoDeJuego }) {
           defaultValue={numUser}
           placeholder="Comienza tu intento"
           keyboardType="numeric"
+          clearTextOnFocus={true} // solo para browser
         />
       : <></>}
       {(jugando) ? <AppButton title="Adivinar" onPress={procesar} /> : <AppButton title={(gano) ? "Volver a Jugar" : "Comenzar"} onPress={startGame} />}            
-      {(jugando) ? <Text style={styles.text}>Intentos: {intentos}</Text> : (gano) ? <AppButton title="Ranking" /> : <></>}
+      {(jugando) ? <Text style={styles.text}>Intentos: {intentos}</Text> : (gano) ? <AppButton title="Ranking" onPress={()=>{navigation.navigate('Ranking')} } /> : <></>}
       <StatusBar style='auto' />
     </View>
   );
@@ -101,18 +103,22 @@ const styles = StyleSheet.create({
     height: 40,
     width: "100%",
     padding: 10,
-    border: "0.5px gray solid",
+
+    borderWidth: 0.5,
+    borderColor: "#808080",
+    shadowColor: "black",
+    shadowOffset: {
+      height: 2,
+      width: 1,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+/*  
+      border: "0.5px gray solid",
     boxShadow: "0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)",
-    transition: "box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
+    transition: "box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms", */
   },
-  textoTitulo: {
-    fontSize: 34,
-    color: "#007688",
-    fontWeight: "bold",
-    textTransform: "uppercase",
-    alignSelf: "center",
-    marginBottom: 50,
-  },
+  
   buttonContainer: {
     padding: 10,
     flexDirection: 'row',
