@@ -1,19 +1,20 @@
 import React from "react";
-import { View, StyleSheet, TextInput } from "react-native";
+import { StyleSheet, Text, TextInput } from "react-native";
+import AppButton from "./AppButton";
 
-const textInput = () => {
-  const [numbero, onChangeNumber] = React.useState(null);
-
+const Jugando = ({ setNumUser, numUser, intentos, procesar }) => {
   return (
-    <View>
+    <>
       <TextInput
         style={styles.input}
-        onChangeText={onChangeNumber}
-        value={numbero}
+        onChangeText={setNumUser}
+        defaultValue={numUser}
         placeholder="Comienza tu intento"
         keyboardType="numeric"
       />
-    </View>
+      <AppButton title="Adivinar" onPress={procesar} />
+      <Text style={styles.text}>Intentos: {intentos}</Text>
+    </>
   );
 };
 
@@ -26,6 +27,12 @@ const styles = StyleSheet.create({
     boxShadow: "0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)",
     transition: "box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
   },
+  text: {
+    color: "#007688",
+    fontSize: 24,
+    alignSelf: "center",
+    paddingBottom: 20,
+  },
 });
 
-export default textInput;
+export default Jugando
