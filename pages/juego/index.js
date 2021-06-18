@@ -85,7 +85,7 @@ export default function Juego({ route, navigation }) {
   return (
     <View style={styles.container}>
       <Cronometro time={time} style={styles.center} />  
-      <Text style={styles.text}><b>{mensaje}</b></Text>
+      <Text style={styles.text}>{mensaje}</Text>
       { mostrarJuego() }
       <StatusBar style='auto' />
     </View>
@@ -100,5 +100,12 @@ const styles = StyleSheet.create({
   },
   center: {
     alignSelf: 'center'
+  },
+  text: {
+    textAlign: 'center',
+    color: "#007688",
+    fontSize: 22,
+    fontWeight: "600",
+    paddingBottom: 20,
   },
 });

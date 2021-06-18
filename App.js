@@ -16,7 +16,7 @@ const Drawer = createDrawerNavigator();
 
 export default function App() {
 
-  const [authenticated, setAuthenticated] = useState(false)
+  const [authenticated, setAuthenticated] = useState(true)
 
   const checkUser = async () => {
     const user = await AsyncStorage.getData('@userData')
