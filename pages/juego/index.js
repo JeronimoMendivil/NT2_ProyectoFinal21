@@ -1,93 +1,92 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, Text, TextInput } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import { StatusBar } from 'expo-status-bar';
 import Cronometro from '../../components/Cronometro';
-import AppButton from "../../components/AppButton";
+import EnPausa from '../../components/EnPausa';
+import Jugando from '../../components/Jugando';
 import vibrate from "../../utils/vibrate";
 
-const numTecho = 100;
 let idInterval;
-let varMinutos = .5;
 const minTosec = min => min * 60;
 
-export default function Juego({ navigation, tiempoDeJuego }) {
-  const [time, setTime] = useState(minTosec(varMinutos));
+export default function Juego({ route, navigation }) {
+  const { tiempoDeJuego, numTecho } = route.params;
+  console.log(tiempoDeJuego);
+  const [time, setTime] = useState(minTosec(tiempoDeJuego));
   const [jugando, setJugando] = useState(false);
   const [intentos, setIntentos] = useState(0);
   const [gano, setGano] = useState(false);
 
   const [numUser, setNumUser] = useState();
   const [numSecret, setNumSecret] = useState();
-  const [mensaje, setMensaje] = useState("Adivina un numero entre 1 " + numSecret + " y " + numTecho);
+  const [mensaje, setMensaje] = useState("Adivina un numero entre 1 y " + numTecho);
 
   useEffect(() => {
     if (time == 0) {
       termino();
-      setTime(minTosec(varMinutos))
-      setMensaje("Se acabo el tiempo")
+      setTime(minTosec(tiempoDeJuego));
+      setMensaje("Se acabo el tiempo");
     }
   }, [time])
 
   const termino = () => {
     vibrate();
-    setJugando(prev => !prev)
-    clearInterval(idInterval)
+    setJugando(prev => !prev);
+    clearInterval(idInterval);
   }
 
   const procesar = () => {
     let aux = intentos + 1;
-    setIntentos(aux);
+    setIntentos(aux); //Suma 1 intento
     if (numUser == numSecret) {
+      //Si el numero intentado coincide
       setGano(true);
-      termino();
+      termino(); 
       setMensaje("Felicidades adiviniste el numero en " + aux + " intentos");
     } 
     else if (numUser > numSecret) {
+      //Si el numero del usuario es mayor
       setMensaje("Pénsa un número mas bajo");
     }
     else{
+      //Si el numero del usuario es menor
       setMensaje("Pénsa un número mas alto");
     }
     setNumUser();
   }
 
   const startGame = () => {
-    clearInterval(idInterval);
-    setTime(minTosec(varMinutos))
-    let aux = Math.floor(Math.random() * numTecho) + 1;
-    setNumSecret(aux);
- 
-    //#TODO: Limpiar input  --LISTO--
-    setGano(false);
-    
-    setIntentos(prev => 0)
-    if (!jugando) {
-      idInterval = setInterval(() => {
-        setTime(prev => prev - 1)
-      }, 1000);
+    clearInterval(idInterval); //Limpia el temporizador
+    setTime(minTosec(tiempoDeJuego)); //Setea el temporizador segun la dificultad
+    setNumSecret(Math.floor(Math.random() * numTecho) + 1); //Setea un numero
+    setGano(false); //Setea Gano = false
+    setIntentos(prev => 0); //Setea Intentos a 0
+    setJugando(prev => !prev); //Setea Jugando a True
+    setMensaje("Adivina un numero entre 1 y " + numTecho); //Setea el Mensaje
+
+    //#TODO: Limpiar input    
+
+    //Inicia el cronometro
+    idInterval = setInterval(() => {
+      setTime(prev => prev - 1)
+    }, 1000);
+  }
+
+  const mostrarJuego = () => {  
+    if(jugando)
+    {
+      return <Jugando setNumUser={setNumUser} numUser={numUser} intentos={intentos} procesar={procesar} />;
     }
-    setJugando(prev => !prev)
-    setMensaje("Adivina un numero entre 1 " + aux + " y " + numTecho);
+    else{
+      return <EnPausa gano={gano} startGame={startGame} navigation={navigation} />;
+    }
   }
 
   return (
     <View style={styles.container}>
       <Cronometro time={time} style={styles.center} />  
-      <Text style={styles.text}>{mensaje}</Text>
-      {/* #TODO: Componente Jugando */}
-      {/* #TODO: Componente NoJugando */}
-      { (jugando) ? 
-        <TextInput
-          style={styles.input}
-          onChangeText={setNumUser}
-          defaultValue={numUser}
-          placeholder="Comienza tu intento"
-          keyboardType="numeric"
-          clearTextOnFocus={true} // solo para browser
-        />
-      : <></>}
-      {(jugando) ? <AppButton title="Adivinar" onPress={procesar} /> : <AppButton title={(gano) ? "Volver a Jugar" : "Comenzar"} onPress={startGame} />}            
-      {(jugando) ? <Text style={styles.text}>Intentos: {intentos}</Text> : (gano) ? <AppButton title="Ranking" onPress={()=>{navigation.navigate('Ranking')} } /> : <></>}
+      <Text style={styles.text}><b>{mensaje}</b></Text>
+      { mostrarJuego() }
       <StatusBar style='auto' />
     </View>
   );
@@ -99,38 +98,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 16
   },
-  input: {
-    height: 40,
-    width: "100%",
-    padding: 10,
-
-    borderWidth: 0.5,
-    borderColor: "#808080",
-    shadowColor: "black",
-    shadowOffset: {
-      height: 2,
-      width: 1,
-    },
-    shadowOpacity: 0.3,
-    shadowRadius: 5,
-/*  
-      border: "0.5px gray solid",
-    boxShadow: "0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)",
-    transition: "box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms", */
-  },
-  
-  buttonContainer: {
-    padding: 10,
-    flexDirection: 'row',
-    alignSelf: "flex-end",
-  },
   center: {
     alignSelf: 'center'
-  },
-  text: {
-    color: "#007688",
-    fontSize: 24,
-    alignSelf: "center",
-    paddingBottom: 20,
   },
 });
