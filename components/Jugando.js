@@ -23,9 +23,18 @@ const styles = StyleSheet.create({
     height: 40,
     width: "100%",
     padding: 10,
-    border: "0.5px gray solid",
+    borderWidth: 0.5,
+    borderColor: "#808080",
+    shadowColor: "black",
+    shadowOffset: {
+      height: 2,
+      width: 1,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+/*     border: "0.5px gray solid",
     boxShadow: "0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)",
-    transition: "box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
+    transition: "box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms", */
   },
   text: {
     color: "#007688",
