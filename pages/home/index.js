@@ -11,8 +11,8 @@ export default function Home({ navigation, applyAuthentication }) {
   async function signInwithGoogleAsync(){
     try {
       const config = {
-        iosClienteId: "640461910291-mp0bs171qmk1v3tpjp0vq4qverddvivu.apps.googleusercontent.com"
-        //androidclienteId :''
+        iosClienteId: '542638054256-3k8sb2a2n7gb5eunh4s0brk9a6r8kugv.apps.googleusercontent.com',
+        androidclienteId :'542638054256-0oc13ertpur8u50ij7er0voou93tqtf6.apps.googleusercontent.com'
       }
       const result = await Google.logInAsync(config);
       console.log(result);
@@ -39,6 +39,8 @@ export default function Home({ navigation, applyAuthentication }) {
       
       {/* #TODO: Agregar Introduccion, tal vez con instrucciones. */}
       {/* #TODO: Agregar Inicio con Google */}
+
+
       <TouchableOpacity
         style={styles.buttonGoogle}
         activeOpacity={0.5}
@@ -48,7 +50,10 @@ export default function Home({ navigation, applyAuthentication }) {
           style={styles.buttonImageIcon}
           source={require('../../assets/btn_google_signin.png')}
         />
-      </TouchableOpacity>
+      </TouchableOpacity> 
+   
+
+
       <TextInput
         style={styles.input}
         placeholder="Name"
@@ -86,10 +91,20 @@ const styles = StyleSheet.create({
     width: "80%",
     margin: 12,
     padding: 10,
+    
+    borderWidth: 0.5,
+    borderColor: "#808080",
+    shadowColor: "black",
+    shadowOffset: {
+      height: 2,
+      width: 1,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
     /* --------------REVISAR------------------------------------------------------------- */
-    border: "0.5px gray solid",
+   /*  border: "0.5px gray solid",
     boxShadow: "0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)",
-    transition: "box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
+    transition: "box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms", */
     /* --------------REVISAR------------------------------------------------------------- */
 
   },
@@ -99,11 +114,11 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: '#fff',
     borderRadius: 5,
-    margin: 50
+    margin: 12
   },
   buttonImageIcon: {
-    padding: 30,
+    padding: 10,
     margin: 5,
-    //resizeMode: 'strech',
+    resizeMode: 'center',
   }
 });
