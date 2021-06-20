@@ -1,14 +1,19 @@
-import React from "react";
-import { View, StyleSheet, Text, Button } from "react-native";
+import React, { useContext } from "react";
+import { View, StyleSheet} from "react-native";
 import { StatusBar } from 'expo-status-bar';
 import AppButton from '../../components/AppButton';
 import TextTitulo from "../../components/TextTitulo";
+
+import GlobalContext from "../../global/context"
+
 
 const nivelFacil = 2;
 const nivelNormal = 1;
 const nivelDificil = 0.5;
 
-export default function Niveles({navigation, applyLogout}) {
+export default function Niveles({navigation}) {
+
+const {applyLogout} = useContext(GlobalContext)
 
 
   return (
@@ -29,7 +34,7 @@ export default function Niveles({navigation, applyLogout}) {
         />
         {/* PROVISORIO */}
         <AppButton title="loguot" 
-                  onPress={()=>{applyLogout}}
+                  onPress={applyLogout}
         />
      
 

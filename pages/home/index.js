@@ -1,32 +1,43 @@
-import React from "react"
+import React, { useState, useContext } from "react"
 import { View, StyleSheet, Image, Text, TextInput, Button, TouchableOpacity } from "react-native"
 import { StatusBar } from 'expo-status-bar'
 import TextTitulo from "../../components/TextTitulo"
 
 import * as Google from 'expo-google-app-auth'
+import GlobalContext from "../../global/context"
 
 
-export default function Home({ navigation, applyAuthentication }) {
+
+export default function Home() {
+
+  const [nombre, setNombre] = useState('')
+  const [mail, setMail] = useState('')
+
+  const { applyAuthentication } = useContext(GlobalContext)
+  const { guardarInvitado } = useContext(GlobalContext)
+
+
+  const loginInvitado = () => {
+    guardarInvitado({nombre, mail})
+    applyAuthentication()
+  }
 
   async function signInwithGoogleAsync(){
     try {
       const config = {
-        iosClienteId: '542638054256-3k8sb2a2n7gb5eunh4s0brk9a6r8kugv.apps.googleusercontent.com',
-        androidclienteId :'542638054256-0oc13ertpur8u50ij7er0voou93tqtf6.apps.googleusercontent.com'
+        iosClientId: '640461910291-npdj3dkb2mrvru7117bo9bskagk90ml5.apps.googleusercontent.com',
+        androidClientId :'542638054256-0oc13ertpur8u50ij7er0voou93tqtf6.apps.googleusercontent.com'
       }
       const result = await Google.logInAsync(config);
-      console.log(result);
-
+      //console.log(result);
       if (result.type === 'success' && result.user !== undefined) {
         applyAuthentication(result.user)
       }
-  
     } catch (error) {
       console.error('Error: ', error);
     }
-  
-  
   }
+
   
   return (
     <View style={styles.container}>
@@ -56,19 +67,20 @@ export default function Home({ navigation, applyAuthentication }) {
 
       <TextInput
         style={styles.input}
-        placeholder="Name"
+        value={nombre}
+        placeholder="Nombre"
+        onChangeText={(text) => setNombre(text)}
       />
       <TextInput
         style={styles.input}
+        value={mail}
         placeholder="Email"
+        onChangeText={(text) => setMail(text)}
       />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-      />
+
       <Button 
         title={'Entrar como invitado'}
-        onPress={()=>{navigation.navigate('Niveles')}}
+        onPress={loginInvitado}
       />
 
       <StatusBar style='auto'/> 

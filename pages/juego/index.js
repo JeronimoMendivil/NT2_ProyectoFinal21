@@ -52,7 +52,7 @@ export default function Juego({ route, navigation }) {
       //Si el numero del usuario es menor
       setMensaje("Pénsa un número mas alto");
     }
-    setNumUser();
+    setNumUser();//Limpia el input
   }
 
   const startGame = () => {
@@ -64,7 +64,6 @@ export default function Juego({ route, navigation }) {
     setJugando(prev => !prev); //Setea Jugando a True
     setMensaje("Adivina un numero entre 1 y " + numTecho); //Setea el Mensaje
 
-    //#TODO: Limpiar input    
 
     //Inicia el cronometro
     idInterval = setInterval(() => {
