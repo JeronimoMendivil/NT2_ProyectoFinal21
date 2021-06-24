@@ -39,7 +39,7 @@ export default function Ranking({ navigation }) {
             <Text style={styles.text} >{puntaje.intentos}</Text>
             <Text style={styles.text} >{puntaje.tiempo}</Text>
           </View>
-        )) : <>No hay Puntajes</>}
+        )) : <Text>No hay Puntajes</Text>}
           
         </View>
       </ScrollView>

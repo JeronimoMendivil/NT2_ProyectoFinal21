@@ -5,7 +5,7 @@ const EnPausa = ({ navigation, gano, startGame }) => {
   return (
     <>
       <AppButton title={(gano) ? "Volver a Jugar" : "Comenzar"} onPress={startGame} />
-      {/* {(gano) ? <AppButton title="ranking" onPress={()=>{navigation.navigate('Ranking')}} /> : <></>} */}
+      {(gano) ? <AppButton title="niveles" onPress={()=>{navigation.navigate('Niveles')}} /> : <></>} 
     </>
   );
 };
