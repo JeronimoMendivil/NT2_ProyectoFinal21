@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { View, StyleSheet, Text, Image } from "react-native";
 import { StatusBar } from 'expo-status-bar';
 import Cronometro from '../../components/Cronometro';
 import EnPausa from '../../components/EnPausa';
 import Jugando from '../../components/Jugando';
 import vibrate from "../../utils/vibrate";
+
+import GlobalContext from "../../global/context"
+
 
 let idInterval;
 const minTosec = min => min * 60;
@@ -80,6 +83,12 @@ export default function Juego({ route, navigation }) {
       return <EnPausa gano={gano} startGame={startGame} navigation={navigation} />;
     }
   }
+
+  const userData = useContext(GlobalContext);
+
+console.log(userData.userName);
+
+
 
   return (
     <View style={styles.container}>

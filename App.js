@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react"
+import React, {useState, useContext} from "react"
 import { StatusBar} from "react-native"
 import { createDrawerNavigator } from "@react-navigation/drawer"
 import { NavigationContainer } from "@react-navigation/native"
@@ -18,6 +18,10 @@ const Drawer = createDrawerNavigator();
 export default function App() {
 
   const [authenticated, setAuthenticated] = useState(false)
+  
+  const userData = useContext(GlobalContext);
+  console.log(userData);
+
 
 /*  
   const checkUser = async () => {
@@ -32,18 +36,24 @@ export default function App() {
     checkUser()
   },[])
  */
-
+/* 
   const guardarInvitado = ({ nombre, mail }) => {
     console.log({nombre, mail});
   }
-
+ */
 
   const applyAuthentication = (user) =>{
     console.log('Data a persistir: ', user)
     AsyncStorage.storeData('@userData', user)
+    userData.userName = user.givenName;
     //checkUser()
     setAuthenticated(true)
     
+  }
+
+  const userDatos = async () => {
+    const user = await AsyncStorage.getData('@userData')
+    //console.log(user)
   }
 
   const applyLogout = () => {
@@ -54,7 +64,7 @@ export default function App() {
 
 
   return (
-    <GlobalContext.Provider value={ { applyAuthentication, applyLogout, guardarInvitado} }>
+    <GlobalContext.Provider value={ { applyAuthentication, applyLogout, userDatos} }>
       <NavigationContainer>
         <StatusBar style="auto" />
         

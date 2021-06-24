@@ -1,10 +1,9 @@
 import React from 'react';
 
 
-const invitadoData = {
-    nombre: "vacio",
-    email: "vacio"
+const userContext = {
+    userName: ""
 }
 
 
-export default React.createContext(invitadoData)
+export default React.createContext(userContext)
