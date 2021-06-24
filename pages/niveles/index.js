@@ -33,7 +33,7 @@ const {applyLogout} = useContext(GlobalContext)
           onPress={()=>{navigation.navigate('Ranking')}}
         />
         {/* PROVISORIO */}
-        <AppButton title="loguot" 
+        <AppButton title="logout" 
                   onPress={applyLogout}
         />
      
