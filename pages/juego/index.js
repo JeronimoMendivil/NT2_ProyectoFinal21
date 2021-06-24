@@ -6,6 +6,7 @@ import EnPausa from '../../components/EnPausa';
 import Jugando from '../../components/Jugando';
 import vibrate from "../../utils/vibrate";
 
+import AsyncStorage from "../../utils/asyncStorage"
 import GlobalContext from "../../global/context"
 
 
@@ -13,8 +14,7 @@ let idInterval;
 const minTosec = min => min * 60;
 
 export default function Juego({ route, navigation }) {
-  const { tiempoDeJuego, numTecho } = route.params;
-  console.log(tiempoDeJuego);
+  const { tiempoDeJuego, numTecho, dificultad } = route.params;
   const [time, setTime] = useState(minTosec(tiempoDeJuego));
   const [jugando, setJugando] = useState(false);
   const [intentos, setIntentos] = useState(0);
@@ -24,6 +24,8 @@ export default function Juego({ route, navigation }) {
   const [numSecret, setNumSecret] = useState();
   const [mensaje, setMensaje] = useState("Adivina un numero entre 1 y " + numTecho);
 
+  const userData = useContext(GlobalContext);
+
   useEffect(() => {
     if (time == 0) {
       termino();
@@ -32,7 +34,25 @@ export default function Juego({ route, navigation }) {
     }
   }, [time])
 
-  const termino = () => {
+/*
+Pense en lo siguiente:
+El que menos puntaje tiene es el mejor:
+Dificultad:
+Facil: 10
+Medio: 5
+Dificil: 0 
+Intentos, a partir del segundo, cada uno vale 1pto.
+Tiempo Transcurrido * 0.01
+*/
+// AsyncStorage.storeData("puntajes", [])
+  const termino = async () => {
+    let puntajes = await AsyncStorage.getData("puntajes");
+    let puntaje = {'nombre': userData.userName ?? "Anonimo", 'intentos': intentos, 'dificultad': dificultad, 'tiempo': time};
+    if (!puntajes){
+      puntajes = []
+    }
+    puntajes.push(puntaje);
+    AsyncStorage.storeData("puntajes", puntajes);
     vibrate();
     setJugando(prev => !prev);
     clearInterval(idInterval);
@@ -83,10 +103,6 @@ export default function Juego({ route, navigation }) {
       return <EnPausa gano={gano} startGame={startGame} navigation={navigation} />;
     }
   }
-
-  const userData = useContext(GlobalContext);
-
-console.log(userData.userName);
 
 
 
