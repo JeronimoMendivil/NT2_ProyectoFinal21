@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import React, { useState, useEffect, useContext } from "react";
+import { View, StyleSheet, Text, Image } from "react-native";
 import { StatusBar } from 'expo-status-bar';
 import Cronometro from '../../components/Cronometro';
 import EnPausa from '../../components/EnPausa';
 import Jugando from '../../components/Jugando';
 import vibrate from "../../utils/vibrate";
+
+import GlobalContext from "../../global/context"
+
 
 let idInterval;
 const minTosec = min => min * 60;
@@ -52,7 +55,7 @@ export default function Juego({ route, navigation }) {
       //Si el numero del usuario es menor
       setMensaje("Pénsa un número mas alto");
     }
-    setNumUser();
+    setNumUser();//Limpia el input
   }
 
   const startGame = () => {
@@ -64,7 +67,6 @@ export default function Juego({ route, navigation }) {
     setJugando(prev => !prev); //Setea Jugando a True
     setMensaje("Adivina un numero entre 1 y " + numTecho); //Setea el Mensaje
 
-    //#TODO: Limpiar input    
 
     //Inicia el cronometro
     idInterval = setInterval(() => {
@@ -81,6 +83,12 @@ export default function Juego({ route, navigation }) {
       return <EnPausa gano={gano} startGame={startGame} navigation={navigation} />;
     }
   }
+
+  const userData = useContext(GlobalContext);
+
+console.log(userData.userName);
+
+
 
   return (
     <View style={styles.container}>
