@@ -40,10 +40,12 @@ export default function Home() {
 
   
   return (
+  
     <View style={styles.container}>
       {/* #TODO: Agregar Nombre */}
-      <TextTitulo text={"TUSAM"} />
-
+      <Image 
+          source={require('../../assets/tusam.jpg')}
+        />
       <Text style={styles.description}>
         Ingrese, seleccione una dificultad e intente adivinar el numero en la menor cantidad de intentos antes que se acabe el tiempo.
       </Text>
@@ -62,21 +64,6 @@ export default function Home() {
           source={require('../../assets/btn_google_signin.png')}
         />
       </TouchableOpacity> 
-   
-
-
-      <TextInput
-        style={styles.input}
-        value={nombre}
-        placeholder="Nombre"
-        onChangeText={(text) => setNombre(text)}
-      />
-      <TextInput
-        style={styles.input}
-        value={mail}
-        placeholder="Email"
-        onChangeText={(text) => setMail(text)}
-      />
 
       <Button 
         title={'Entrar como invitado'}
@@ -97,34 +84,12 @@ const styles = StyleSheet.create({
   },
   description: {
     fontSize: 18,
-  },
-  input: {
-    height: 40,
-    width: "80%",
-    margin: 12,
-    padding: 10,
-    
-    borderWidth: 0.5,
-    borderColor: "#808080",
-    shadowColor: "black",
-    shadowOffset: {
-      height: 2,
-      width: 1,
-    },
-    shadowOpacity: 0.3,
-    shadowRadius: 5,
-    /* --------------REVISAR------------------------------------------------------------- */
-   /*  border: "0.5px gray solid",
-    boxShadow: "0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)",
-    transition: "box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms", */
-    /* --------------REVISAR------------------------------------------------------------- */
-
+    textAlign: 'center',
+    color: "black"
   },
   buttonGoogle:{
     flexDirection: 'row',
     alignItems: 'center',
-    borderWidth: 0.5,
-    borderColor: '#fff',
     borderRadius: 5,
     margin: 12
   },
