@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { View, StyleSheet} from "react-native";
+import { View, StyleSheet, Image} from "react-native";
 import { StatusBar } from 'expo-status-bar';
 import AppButton from '../../components/AppButton';
 import TextTitulo from "../../components/TextTitulo";
@@ -18,8 +18,8 @@ const {applyLogout} = useContext(GlobalContext)
 
   return (
     <View style={styles.container}>
-
-        <TextTitulo text={"elige el nivel"} />
+        <Image source={require('../../assets/tusam2.jpg')} />
+        <TextTitulo text={"elige un nivel"} />
         <AppButton title="fácil" 
           onPress={()=>{navigation.navigate('Juego', { tiempoDeJuego: 2, numTecho: 100 })}} //2 Minutos entre 1 y 100
         />
@@ -33,7 +33,7 @@ const {applyLogout} = useContext(GlobalContext)
           onPress={()=>{navigation.navigate('Ranking')}}
         />
         {/* PROVISORIO */}
-        <AppButton title="loguot" 
+        <AppButton title="logout" 
                   onPress={applyLogout}
         />
      
