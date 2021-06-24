@@ -67,7 +67,7 @@ export default function Home() {
 
       <Button 
         title={'Entrar como invitado'}
-        onPress={loginInvitado}
+        onPress={applyAuthentication}
       />
 
       <StatusBar style='auto'/> 
