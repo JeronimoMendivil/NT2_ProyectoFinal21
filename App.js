@@ -20,7 +20,6 @@ export default function App() {
   const [authenticated, setAuthenticated] = useState(false)
   
   const userData = useContext(GlobalContext);
-  console.log(userData);
 
 
 /*  
