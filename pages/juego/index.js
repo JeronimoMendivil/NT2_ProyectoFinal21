@@ -52,6 +52,20 @@ Tiempo Transcurrido * 0.01
       puntajes = []
     }
     puntajes.push(puntaje);
+    console.log(puntajes);
+    puntajes.sort(function (a, b) {
+      if (a.tiempo > b.tiempo) {
+        return 1;
+      }
+      if (a.tiempo < b.tiempo) {
+        return -1;
+      }
+      // a must be equal to b
+      return 0;
+    });
+
+    console.log(puntajes);
+    
     AsyncStorage.storeData("puntajes", puntajes);
     vibrate();
     setJugando(prev => !prev);
